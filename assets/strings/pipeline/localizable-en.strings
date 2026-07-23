@@ -1,0 +1,7 @@
+[
+    'pipeline-index-heading' => 'Pipelines',
+    'pipeline-index-title' => 'Pipelines',
+
+    'pipeline-view-header-@1' => 'Pipeline: %s',
+    'pipeline-view-title-@1' => 'Pipeline: %s',
+];

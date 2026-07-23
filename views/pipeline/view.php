@@ -1,0 +1,1 @@
+<h1><?php printf(l('pipeline-view-header-@1'), $this->pipeline->name); ?></h1>

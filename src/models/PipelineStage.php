@@ -12,6 +12,8 @@
  * @format
  */
 
+namespace Emeraldion\Magritte\Models;
+
 use Emeraldion\EmeRails\Models\ActiveRecord;
 
 /**

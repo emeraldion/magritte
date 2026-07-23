@@ -1,24 +1,24 @@
 {
-    "name": "emeraldion/magritte",
-    "description": "Ceci n'est pas une pipe",
-    "type": "library",
-    "require": {
-        "emeraldion/emerails": "dev-master"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "9.6.x-dev"
-    },
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Emeraldion\\Magritte\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "claudiopro",
-            "email": "claudio.procida@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev"
+  "name": "emeraldion/magritte",
+  "description": "Ceci n'est pas une pipe",
+  "type": "library",
+  "require": {
+    "emeraldion/emerails": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "9.6.x-dev"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Emeraldion\\Magritte\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "claudiopro",
+      "email": "claudio.procida@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev"
 }
