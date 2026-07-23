@@ -2,23 +2,53 @@
   "name": "emeraldion/magritte",
   "description": "Ceci n'est pas une pipe",
   "type": "library",
+  "version": "1.0.0",
+  "keywords": [
+    "library",
+    "lamp",
+    "pipelines",
+    "emerails"
+  ],
+  "homepage": "https://github.com/claudiopro/magritte",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Claudio Procida",
+      "email": "claudio.procida@gmail.com",
+      "homepage": "https://www.emeraldion.it",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "magritte@emeraldion.it",
+    "issues": "https://github.com/claudiopro/magritte/issues",
+    "source": "https://github.com/claudiopro/magritte"
+  },
+  "minimum-stability": "dev",
   "require": {
+    "php": ">=7.3.0",
     "emeraldion/emerails": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "9.6.x-dev"
   },
-  "license": "MIT",
   "autoload": {
     "psr-4": {
       "Emeraldion\\Magritte\\": "src/"
     }
   },
-  "authors": [
-    {
-      "name": "claudiopro",
-      "email": "claudio.procida@gmail.com"
-    }
-  ],
-  "minimum-stability": "dev"
+  "archive": {
+    "exclude": [
+      "/docs",
+      "/node_modules/",
+      "/test",
+      "/vendor",
+      ".nvmrc",
+      ".prettierrc.json",
+      ".prettierignore",
+      ".gitignore",
+      ".vscode",
+      "Makefile"
+    ]
+  }
 }
