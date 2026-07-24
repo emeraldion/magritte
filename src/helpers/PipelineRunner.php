@@ -289,10 +289,10 @@ class PipelineRunner
 
         $ret = null;
         if ($handle = $pipeline->set_has_and_belongs_to_many($items, ['stage' => $pipeline_stage->short_name])) {
-            if ($verbose) {
-                foreach ($handle as $item_id => $result) {
-                    ['status' => $status, 'success' => $success] = $result;
-                    $ret[$status][] = $item_id;
+            foreach ($handle as $item_id => $result) {
+                ['status' => $status, 'success' => $success] = $result;
+                $ret[$status][] = $item_id;
+                if ($verbose) {
                     switch ($status) {
                         case 'created':
                             printf("Item %d was injected into stage %s\n", $item_id, $pipeline_stage_name);
