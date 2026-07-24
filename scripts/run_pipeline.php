@@ -19,8 +19,8 @@ require_once __DIR__ . '/../models/pipeline_item.php';
 use splitbrain\phpcli\Options;
 
 use Emeraldion\Magritte\Helpers\PipelineRunner;
-use Emeraldion\Magritte\Models\BasePipeline;
-use Emeraldion\Magritte\Models\BasePipelineStage;
+use Emeraldion\Magritte\Models\Pipeline;
+use Emeraldion\Magritte\Models\PipelineStage;
 
 class RunPipeline extends ScriptCommand
 {

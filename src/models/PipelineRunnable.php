@@ -16,5 +16,5 @@ namespace Emeraldion\Magritte\Models;
 
 interface PipelineRunnable
 {
-    public function run_stage(BasePipelineStage $stage): bool;
+    public function run_stage(PipelineStage $stage): bool;
 }

@@ -17,11 +17,11 @@ namespace Emeraldion\Magritte\Models;
 use Emeraldion\EmeRails\Models\ActiveRecord;
 
 /**
- * @class BasePipelineStage
+ * @class PipelineStage
  * @short Edit this model's short description
  * @details Edit this model's detailed description
  */
-class BasePipelineStage extends ActiveRecord
+class PipelineStage extends ActiveRecord
 {
     use ByShortName;
 

@@ -19,11 +19,11 @@ use Emeraldion\EmeRails\Models\ActiveRecord;
 use Emeraldion\EmeRails\Models\Relationship;
 
 /**
- * @class BasePipeline
+ * @class Pipeline
  * @short Edit this model's short description
  * @details Edit this model's detailed description
  */
-class BasePipeline extends ActiveRecord
+class Pipeline extends ActiveRecord
 {
     use ByShortName;
 
