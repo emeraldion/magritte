@@ -55,6 +55,9 @@ class Pipeline extends ActiveRecord
         );
     }
 
+    /**
+     * @override
+     */
     public function set_has_and_belongs_to_many(array $items, array $params = []): ?array
     {
         $conn = Db::get_connection();
