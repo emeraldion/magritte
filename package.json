@@ -15,6 +15,10 @@
   "scripts": {
     "format": "prettier --write config/**/*.php controllers/**/*.php helpers/**/*.php models/**/*.php views/**/*.php src/**/*.php include/**/*.php assets/js/*.js assets/styles/*.css",
     "pin-node": "node -v > .nvmrc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "scripts/copy_aoi_css.sh"
+  },
+  "dependencies": {
+    "@emeraldion/aoi": "^1.0.0"
   }
 }

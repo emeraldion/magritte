@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #                                _ __  __
 #    ____ ___  ____ _____ ______(_) /_/ /____
 #   / __ `__ \/ __ `/ __ `/ ___/ / __/ __/ _ \
@@ -10,5 +11,16 @@
 # @format
 #
 
-assets/styles/aoi.css
-assets/styles/aoi.min.css
+# Import common utils
+source $(dirname "$0")/common.sh
+
+SRC="node_modules/@emeraldion/aoi/css/aoi.css \
+node_modules/@emeraldion/aoi/dist/aoi.min.css"
+DEST=assets/styles
+
+logo
+echo "Copying @emeraldion/aoi dist files..."
+
+for src in $SRC; do
+    cp $src $DEST
+done

@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@emeraldion/aoi@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@emeraldion/aoi/-/aoi-1.0.0.tgz#48afa38a81aaff9baa610a91b427b0075ecc92ec"
+  integrity sha512-cqXtIh6xJOWwChaNzPqH8C/KgFhWHJ3EHI1+KUQC/8YRTFcJm2BcsFxfuGAdtAwtR7uXOapMSnPoIodKCX5beQ==
+  dependencies:
+    font-awesome "^4.7.0"
+
 "@playwright/test@^1.30.0":
   version "1.61.1"
   resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.61.1.tgz#48568dc22af7819e55fa5e8e3bc79b7e6a3e6675"
@@ -21,6 +28,11 @@ css-declaration-sorter@^7.3.0:
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/css-declaration-sorter/-/css-declaration-sorter-7.4.0.tgz#9c215fbda2dcf4083bae69f125688158ae847deb"
   integrity sha512-LTuzjPoyA2vMGKKcaOqKSp7Ub2eGrNfKiZH4LpezxpNrsICGCSFvsQOI29psISxNZtaXibkC2CXzrQ5enMeGGw==
+
+font-awesome@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
+  integrity sha512-U6kGnykA/6bFmg1M/oT9EkFeIYv7JlX3bozwQJWiiLz6L0w3F5vBVPxHlwyX/vtNq1ckcpRKOB9f2Qal/VtFpg==
 
 fsevents@2.3.2:
   version "2.3.2"
