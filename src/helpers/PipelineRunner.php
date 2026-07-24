@@ -254,7 +254,7 @@ class PipelineRunner
         $pipeline_stage_name = null,
         ?array $identifiers = null,
         $verbose = false
-    ): void {
+    ): ?array {
         $conn = Db::get_connection();
 
         if (!($pipeline = Pipeline::find_by_short_name($pipeline_name))) {
@@ -287,10 +287,12 @@ class PipelineRunner
             throw new \Exception(sprintf('Unknown items: %s', implode(', ', $identifiers)));
         }
 
-        if ($ret = $pipeline->set_has_and_belongs_to_many($items, ['stage' => $pipeline_stage->short_name])) {
+        $ret = null;
+        if ($handle = $pipeline->set_has_and_belongs_to_many($items, ['stage' => $pipeline_stage->short_name])) {
             if ($verbose) {
-                foreach ($ret as $item_id => $result) {
+                foreach ($handle as $item_id => $result) {
                     ['status' => $status, 'success' => $success] = $result;
+                    $ret[$status][] = $item_id;
                     switch ($status) {
                         case 'created':
                             printf("Item %d was injected into stage %s\n", $item_id, $pipeline_stage_name);
@@ -306,6 +308,8 @@ class PipelineRunner
         }
 
         Db::close_connection($conn);
+
+        return $ret;
     }
 
     protected function add_extra_options_to_request(string $task_name, ?string $task_args, array $user_args): void
