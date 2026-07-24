@@ -276,12 +276,12 @@ class PipelineRunner
         $identifiers_as_list = implode(
             ',',
             array_map(function ($identifier) use ($conn) {
-                return $conn->escape($identifier);
+                return "'" . $conn->escape($identifier) . "'";
             }, $identifiers)
         );
         if (
             !($items = $factory->find_all([
-                'where_clause' => "`id` IN ({$identifiers_as_list})"
+                'where_clause' => "`{$factory->get_primary_key_name()}` IN ({$identifiers_as_list})"
             ]))
         ) {
             throw new \Exception(sprintf('Unknown items: %s', implode(', ', $identifiers)));

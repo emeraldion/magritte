@@ -101,12 +101,12 @@ class Pipeline extends ActiveRecord
         $item_fk_values = implode(
             ',',
             array_map(function ($item) use ($conn) {
-                return $conn->escape($item->{$item->get_primary_key_name()});
+                return "'" . $conn->escape($item->{$item->get_primary_key_name()}) . "'";
             }, $items)
         );
         if (
             $existing_rel = $this->has_and_belongs_to_many($itemclass, [
-                'where_clause' => "`{$item->get_foreign_key_name()}` IN ({$item_fk_values})"
+                'where_clause' => "`{$item->get_table_name()}`.`{$item->get_foreign_key_name()}` IN ({$item_fk_values})"
             ])
         ) {
             $update = true;
