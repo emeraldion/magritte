@@ -59,7 +59,7 @@ class PipelineRunner
         $start = 0,
         $expunge = false,
         $user_args = []
-    ) {
+    ): bool {
         $did_work = false;
 
         $scheduler = new TaskRunner();
@@ -198,7 +198,7 @@ class PipelineRunner
         return $did_work;
     }
 
-    public function inspect($pipeline_name, $pipeline_stage_name = null, $verbose = false, $show_empty = false)
+    public function inspect($pipeline_name, $pipeline_stage_name = null, $verbose = false, $show_empty = false): void
     {
         $conn = Db::get_connection();
 
@@ -249,8 +249,12 @@ class PipelineRunner
         }
     }
 
-    public function inject($pipeline_name, $pipeline_stage_name = null, ?array $identifiers = null, $verbose = false)
-    {
+    public function inject(
+        $pipeline_name,
+        $pipeline_stage_name = null,
+        ?array $identifiers = null,
+        $verbose = false
+    ): void {
         $conn = Db::get_connection();
 
         if (!($pipeline = Pipeline::find_by_short_name($pipeline_name))) {
@@ -304,7 +308,7 @@ class PipelineRunner
         Db::close_connection($conn);
     }
 
-    private function add_extra_options_to_request(string $task_name, ?string $task_args, array $user_args)
+    protected function add_extra_options_to_request(string $task_name, ?string $task_args, array $user_args): void
     {
         if ($task = TaskRegistry::get($task_name)) {
             $fields = [];
