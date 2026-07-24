@@ -12,23 +12,15 @@
  * @format
  */
 
-namespace Emeraldion\Magritte\Models;
-
 use Emeraldion\EmeRails\Models\ActiveRecord;
 
 /**
- * @class PipelineStage
+ * @class PipelineItem
  * @short Edit this model's short description
  * @details Edit this model's detailed description
  */
-class PipelineStage extends ActiveRecord
+class PipelineItem extends ActiveRecord
 {
-    use ByShortName;
-
-    public function get_localized_name(): string
-    {
-        return l(
-            sprintf('pipeline-stage-name-%s', preg_replace('/[^a-z0-9]+/', '-', mb_strtolower($this->short_name)))
-        );
-    }
+    // TODO: add your code here
 }
+

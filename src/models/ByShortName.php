@@ -14,21 +14,26 @@
 
 namespace Emeraldion\Magritte\Models;
 
-use Emeraldion\EmeRails\Models\ActiveRecord;
+use Emeraldion\EmeRails\Db;
 
 /**
- * @class PipelineStage
+ * @trait ByShortName
  * @short Edit this model's short description
  * @details Edit this model's detailed description
  */
-class PipelineStage extends ActiveRecord
+trait ByShortName
 {
-    use ByShortName;
-
-    public function get_localized_name(): string
+    public static function find_by_short_name(string $short_name): ?self
     {
-        return l(
-            sprintf('pipeline-stage-name-%s', preg_replace('/[^a-z0-9]+/', '-', mb_strtolower($this->short_name)))
-        );
+        $conn = Db::get_connection();
+
+        $factory = new self();
+        $ret = $factory->find_one([
+            'where_clause' => "`short_name` = '{$conn->escape($short_name)}'"
+        ]);
+
+        Db::close_connection($conn);
+
+        return $ret;
     }
 }

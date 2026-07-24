@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/emeraldion/emerails.git",
-                "reference": "a2953173867224ce7a8abf86df74f7c22d55b409"
+                "reference": "074bce33ce29283dc6215782918dc871837cf71b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/emeraldion/emerails/zipball/a2953173867224ce7a8abf86df74f7c22d55b409",
-                "reference": "a2953173867224ce7a8abf86df74f7c22d55b409",
+                "url": "https://api.github.com/repos/emeraldion/emerails/zipball/074bce33ce29283dc6215782918dc871837cf71b",
+                "reference": "074bce33ce29283dc6215782918dc871837cf71b",
                 "shasum": ""
             },
             "require": {
@@ -69,7 +69,7 @@
                 "issues": "https://github.com/emeraldion/emerails/issues",
                 "source": "https://github.com/emeraldion/emerails"
             },
-            "time": "2026-07-23T06:34:38+00:00"
+            "time": "2026-07-24T13:32:57+00:00"
         },
         {
             "name": "splitbrain/php-cli",
@@ -1045,12 +1045,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "023d1d24ee541999f61336c0453ddd542212dab4"
+                "reference": "b760399172d31f71075305db16181569588f20f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/023d1d24ee541999f61336c0453ddd542212dab4",
-                "reference": "023d1d24ee541999f61336c0453ddd542212dab4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b760399172d31f71075305db16181569588f20f8",
+                "reference": "b760399172d31f71075305db16181569588f20f8",
                 "shasum": ""
             },
             "require": {
@@ -1132,7 +1132,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-07-22T02:43:00+00:00"
+            "time": "2026-07-24T06:34:38+00:00"
         },
         {
             "name": "sebastian/cli-parser",
