@@ -32,7 +32,7 @@ class PipelineController extends BaseController
     {
         parent::init();
 
-        $this->accept_parameter(['view'], 'id', ['type' => 'int', 'required' => true]);
+        $this->accept_parameter(['stage', 'view'], 'id', ['type' => 'int', 'required' => true]);
     }
 
     /**
@@ -57,11 +57,29 @@ class PipelineController extends BaseController
         if ($pipeline = $this->pipeline = Pipeline::find($this->parameters->id)) {
             // var_dump($pipeline);
 
-            if ($pipeline->has_many(PipelineStage::class)) {
+            if ($pipeline->has_many(PipelineStage::class, ['as' => 'stages'])) {
                 // var_dump($pipeline->pipeline_stages);
             }
         }
 
         $this->set_title(sprintf(l('pipeline-view-title-@1'), $this->pipeline->name));
+    }
+
+    /**
+     * @fn stage
+     * @short Edit this actions's short description
+     * @details Edit this actions's detailed description
+     */
+    public function stage()
+    {
+        if ($stage = $this->stage = PipelineStage::find($this->parameters->id)) {
+            // var_dump($stage);
+
+            if ($stage->belongs_to(Pipeline::class)) {
+                // var_dump($pipeline->pipeline_stages);
+            }
+        }
+
+        $this->set_title(sprintf(l('pipeline-stage-title-@1'), $this->stage->name));
     }
 }

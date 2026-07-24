@@ -2,6 +2,11 @@
     'pipeline-index-heading' => 'Pipelines',
     'pipeline-index-title' => 'Pipelines',
 
+    'pipeline-stage-header-@1' => 'Stage: %s',
+    'pipeline-stage-pipeline-header-@1' => 'Pipeline: %s',
+    'pipeline-stage-title-@1' => 'Stage: %s',
+
     'pipeline-view-header-@1' => 'Pipeline: %s',
+    'pipeline-view-stages-header' => 'Stages',
     'pipeline-view-title-@1' => 'Pipeline: %s',
 ];
