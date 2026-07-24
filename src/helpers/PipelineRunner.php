@@ -25,7 +25,7 @@ class PipelineRunner
 {
     private $itemclass;
 
-    private function __construct(string $classname)
+    protected function __construct(string $classname)
     {
         $this->itemclass = $classname;
     }
