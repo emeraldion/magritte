@@ -18,8 +18,8 @@ require_once __DIR__ . '/../../models/pipeline_item.php';
 
 use Emeraldion\EmeRails\Db;
 
-use Emeraldion\Magritte\Models\Pipeline;
-use Emeraldion\Magritte\Models\PipelineStage;
+use Emeraldion\Magritte\Models\BasePipeline;
+use Emeraldion\Magritte\Models\BasePipelineStage;
 
 class PipelineRunner
 {
@@ -65,7 +65,7 @@ class PipelineRunner
         $scheduler = new TaskRunner();
         $conn = Db::get_connection();
 
-        if (!($pipeline = Pipeline::find_by_short_name($pipeline_name))) {
+        if (!($pipeline = BasePipeline::find_by_short_name($pipeline_name))) {
             throw new \Exception(sprintf('Unknown pipeline: %s', $pipeline_name));
         }
         if (!$pipeline->enabled) {
@@ -76,7 +76,7 @@ class PipelineRunner
             printf("Running pipeline: %s\n", $pipeline->short_name);
         }
 
-        $pipeline->has_many(PipelineStage::class, ['as' => 'stages']);
+        $pipeline->has_many(BasePipelineStage::class, ['as' => 'stages']);
 
         $items_by_stage = [];
         if (
@@ -122,7 +122,7 @@ class PipelineRunner
 
                 $this->add_extra_options_to_request($stage->task, $stage->task_args, $user_args);
 
-                $pipelines_to_items = Relationship::many_to_many(Pipeline::class, $this->itemclass);
+                $pipelines_to_items = Relationship::many_to_many(BasePipeline::class, $this->itemclass);
 
                 if ($result = $task_runner->run(null, $stage->task)) {
                     $next_stage = null;
@@ -133,7 +133,7 @@ class PipelineRunner
                         // FIXME: we treat null as an implicit promotion enablement
                         (is_null($stage->promotion_enabled) || $stage->promotion_enabled)
                     ) {
-                        if (!($next_stage = PipelineStage::find($stage->next_stage_id))) {
+                        if (!($next_stage = BasePipelineStage::find($stage->next_stage_id))) {
                             printf("    %s: Cannot find next stage (id: %d)\n", $id, $stage->next_stage_id);
                         } elseif ($next_stage->pipeline_id != $pipeline->id) {
                             printf(
@@ -202,7 +202,7 @@ class PipelineRunner
     {
         $conn = Db::get_connection();
 
-        if (!($pipeline = Pipeline::find_by_short_name($pipeline_name))) {
+        if (!($pipeline = BasePipeline::find_by_short_name($pipeline_name))) {
             throw new \Exception(sprintf('Unknown pipeline: %s', $pipeline_name));
         }
 
@@ -210,7 +210,7 @@ class PipelineRunner
             printf("Pipeline: %s\n", $pipeline->name);
         }
 
-        $pipeline->has_many(PipelineStage::class, ['as' => 'stages']);
+        $pipeline->has_many(BasePipelineStage::class, ['as' => 'stages']);
 
         $items_by_stage = [];
         if (
@@ -257,10 +257,10 @@ class PipelineRunner
     ): ?array {
         $conn = Db::get_connection();
 
-        if (!($pipeline = Pipeline::find_by_short_name($pipeline_name))) {
+        if (!($pipeline = BasePipeline::find_by_short_name($pipeline_name))) {
             throw new \Exception(sprintf('Unknown pipeline: %s', $pipeline_name));
         }
-        if (!($pipeline_stage = PipelineStage::find_by_short_name($pipeline_stage_name))) {
+        if (!($pipeline_stage = BasePipelineStage::find_by_short_name($pipeline_stage_name))) {
             throw new \Exception(sprintf('Unknown pipeline stage: %s', $pipeline_stage_name));
         }
         if ($pipeline_stage->pipeline_id != $pipeline->id) {

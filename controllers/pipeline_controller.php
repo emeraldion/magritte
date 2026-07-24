@@ -13,8 +13,8 @@
  */
 
 use Emeraldion\EmeRails\Controllers\BaseController;
-use Emeraldion\Magritte\Models\Pipeline;
-use Emeraldion\Magritte\Models\PipelineStage;
+use Emeraldion\Magritte\Models\BasePipeline;
+use Emeraldion\Magritte\Models\BasePipelineStage;
 
 /**
  * @class PipelineController
@@ -42,7 +42,7 @@ class PipelineController extends BaseController
      */
     public function index()
     {
-        $factory = new Pipeline();
+        $factory = new BasePipeline();
         $this->pipelines = $factory->find_all();
         $this->set_title(l('pipeline-index-title'));
     }
@@ -54,10 +54,10 @@ class PipelineController extends BaseController
      */
     public function view()
     {
-        if ($pipeline = $this->pipeline = Pipeline::find($this->parameters->id)) {
+        if ($pipeline = $this->pipeline = BasePipeline::find($this->parameters->id)) {
             // var_dump($pipeline);
 
-            if ($pipeline->has_many(PipelineStage::class, ['as' => 'stages'])) {
+            if ($pipeline->has_many(BasePipelineStage::class, ['as' => 'stages'])) {
                 // var_dump($pipeline->pipeline_stages);
             }
         }
@@ -72,10 +72,10 @@ class PipelineController extends BaseController
      */
     public function stage()
     {
-        if ($stage = $this->stage = PipelineStage::find($this->parameters->id)) {
+        if ($stage = $this->stage = BasePipelineStage::find($this->parameters->id)) {
             // var_dump($stage);
 
-            if ($stage->belongs_to(Pipeline::class)) {
+            if ($stage->belongs_to(BasePipeline::class)) {
                 // var_dump($pipeline->pipeline_stages);
             }
         }
