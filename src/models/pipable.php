@@ -14,4 +14,7 @@
 
 namespace Emeraldion\Magritte\Models;
 
-interface Pipable {}
+interface Pipable
+{
+    public function get_identifier(): string;
+}
