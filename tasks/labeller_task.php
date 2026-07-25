@@ -12,6 +12,8 @@
  * @format
  */
 
+require_once __DIR__ . '/../models/pipeline_item.php';
+
 use Emeraldion\Magritte\Helpers\BaseTask;
 use Emeraldion\Magritte\Helpers\TaskRegistry;
 
@@ -31,7 +33,7 @@ class LabellerTask extends BaseTask
 
         $result = [];
         if (
-            $items = $this->get_items($context, function ($x) {
+            $items = $this->get_items($context, PipelineItem::class, function ($x) {
                 return true;
             })
         ) {

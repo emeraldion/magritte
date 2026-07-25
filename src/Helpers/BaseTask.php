@@ -14,8 +14,6 @@
 
 namespace Emeraldion\Magritte\Helpers;
 
-require_once __DIR__ . '/../../models/pipeline_item.php';
-
 use Emeraldion\EmeRails\Config;
 use Emeraldion\EmeRails\Helpers\Localization;
 
@@ -203,12 +201,12 @@ abstract class BaseTask implements Task
         return explode(',', $identifiers);
     }
 
-    protected function get_items($context, $filter_fn, int $limit = 100)
+    protected function get_items($context, string $classname, callable $filter_fn, int $limit = 100): array
     {
         $items = array_filter(
             $this->get_option(self::PARAM_ID)
                 ? array_map(function ($identifier) {
-                    if ($item = \PipelineItem::find(trim($identifier))) {
+                    if ($item = $classname::find(trim($identifier))) {
                         return $item;
                     }
                     return null;
