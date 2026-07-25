@@ -15,7 +15,6 @@
 namespace Emeraldion\Magritte\Helpers;
 
 require_once __DIR__ . '/../../config/task_runner.conf.php';
-require_once __DIR__ . '/../../models/pipeline_item.php';
 
 use Emeraldion\EmeRails\Config;
 
