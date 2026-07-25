@@ -100,7 +100,7 @@ class PipelineRunner
                 continue;
             }
 
-            if (!$stage->task_name) {
+            if (!$stage->task) {
                 if ($verbose) {
                     printf(
                         "  Pipeline stage has no task associated: %s:%s\n",
