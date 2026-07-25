@@ -14,6 +14,8 @@
 
 namespace Emeraldion\Magritte\Helpers;
 
+require_once __DIR__ . '/../../models/pipeline_item.php';
+
 use Emeraldion\EmeRails\Config;
 use Emeraldion\EmeRails\Helpers\Localization;
 
@@ -201,24 +203,24 @@ abstract class BaseTask implements Task
         return explode(',', $identifiers);
     }
 
-    protected function get_stocks($context, $filter_fn, int $limit = 100)
+    protected function get_items($context, $filter_fn, int $limit = 100)
     {
-        $stocks = array_filter(
-            $this->get_option('isin')
-                ? array_map(function ($isin) {
-                    if ($stock = Stock::find(trim($isin))) {
-                        return $stock;
+        $items = array_filter(
+            $this->get_option(self::PARAM_ID)
+                ? array_map(function ($identifier) {
+                    if ($item = \PipelineItem::find(trim($identifier))) {
+                        return $item;
                     }
                     return null;
-                }, $this->get_isin_from_option())
-                : $context->stocks,
+                }, $this->get_identifiers_from_option())
+                : $context->items,
             $filter_fn
         );
-        if (count($stocks) > $limit) {
-            $stocks = array_slice($stocks, 0, $limit);
+        if (count($items) > $limit) {
+            $items = array_slice($items, 0, $limit);
         }
-        // var_dump($stocks);
-        return $stocks;
+        // var_dump($items);
+        return $items;
     }
 
     protected function expire_cached_pages(array $pages): void

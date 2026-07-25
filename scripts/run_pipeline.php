@@ -15,6 +15,7 @@
 
 require_once __DIR__ . '/base.php';
 require_once __DIR__ . '/../models/pipeline_item.php';
+require_once __DIR__ . '/../tasks/labeller_task.php';
 
 use splitbrain\phpcli\Options;
 
@@ -159,7 +160,7 @@ class RunPipeline extends ScriptCommand
         $stage_name = $options->getOpt(get_called_class()::OPTION_STAGE);
         $short_name = first($options->getArgs());
 
-        $runner = PipelineRunner::for(PipelineItem::class);
+        $runner = PipelineRunner::for(\PipelineItem::class);
         try {
             if (!$runner->run($short_name, $stage_name, $verbose, $dry_run, $limit, $start, $expunge)) {
                 ANSIColorWriter::printf("\n%s\n", 'bright-black', AnsiColorWriter::bold('Nothing to do'));
@@ -180,7 +181,7 @@ class RunPipeline extends ScriptCommand
         $show_empty = $options->getOpt(get_called_class()::OPTION_EMPTY_STAGES);
         $short_name = first($options->getArgs());
 
-        $runner = PipelineRunner::for(PipelineItem::class);
+        $runner = PipelineRunner::for(\PipelineItem::class);
         try {
             $runner->inspect($short_name, $stage_name, $verbose, $show_empty);
         } catch (Throwable $t) {
@@ -199,7 +200,7 @@ class RunPipeline extends ScriptCommand
         $identifiers = $options->getOpt(get_called_class()::OPTION_ID);
         $short_name = first($options->getArgs());
 
-        $runner = PipelineRunner::for(PipelineItem::class);
+        $runner = PipelineRunner::for(\PipelineItem::class);
         try {
             $runner->inject($short_name, $stage_name, explode(',', $identifiers), $verbose);
         } catch (Throwable $t) {

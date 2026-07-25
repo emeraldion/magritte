@@ -82,14 +82,14 @@ abstract class TaskRegistry
     }
 
     /**
-     *  @fn run_registry
+     *  @fn run_all
      *  @short Runs all active tasks in the registry.
      *  @details Executes all tasks in the registry, sorting them by the return value
      *  of the <code>get_priority($context)</code> method. Does not run tasks whose
      *  method <code>is_active</code> returns <code>FALSE</code>.
      *  @param context The context of execution for the run registry.
      */
-    public static function run_registry($context)
+    public static function run_all($context)
     {
         uasort(self::$registry, function ($a, $b) {
             global $context;

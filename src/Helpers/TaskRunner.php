@@ -14,7 +14,8 @@
 
 namespace Emeraldion\Magritte\Helpers;
 
-require_once __DIR__ . '/../config/task_runner.conf.php';
+require_once __DIR__ . '/../../config/task_runner.conf.php';
+require_once __DIR__ . '/../../models/pipeline_item.php';
 
 use Emeraldion\EmeRails\Config;
 
@@ -26,8 +27,7 @@ class TaskRunnerContext
 {
     public $task_name = null;
     public $level = null;
-    public $preferences = null;
-    public $stocks = [];
+    public $items = [];
 }
 
 class TaskRunner
@@ -43,31 +43,21 @@ class TaskRunner
 
         if ($task_name) {
             if (!TaskRegistry::has($task_name)) {
-                printf("Agent does not exist: %s\n", $task_name);
+                printf("Task does not exist: %s\n", $task_name);
                 return;
             }
         }
 
-        echo 'Reading preferences...';
-
-        $preference_factory = new Preference();
-        $preferences = first($preference_factory->find_all());
-
-        // print_r($preferences);
-
-        echo "done\n";
-
-        $stock_factory = new Stock();
-        $stocks = $stock_factory->find_all([
-            'where_clause' => '`attivo` = 1',
+        $item_factory = new \PipelineItem();
+        $items = $item_factory->find_all([
+            // 'where_clause' => '`attivo` = 1',
             'limit' => LIMIT
         ]);
 
-        // print_r($stocks);
+        // print_r($items);
 
         $context = new TaskRunnerContext();
-        $context->stocks = $stocks;
-        $context->preferences = $preferences;
+        $context->items = $items;
         $context->level = $level;
         $context->task_name = $task_name;
 

@@ -13,14 +13,22 @@
  */
 
 use Emeraldion\EmeRails\Models\ActiveRecord;
+use Emeraldion\Magritte\Models\Pipable;
 
 /**
  * @class PipelineItem
  * @short Edit this model's short description
  * @details Edit this model's detailed description
  */
-class PipelineItem extends ActiveRecord
+class PipelineItem extends ActiveRecord implements Pipable
 {
-    // TODO: add your code here
-}
+    public function get_identifier(): string
+    {
+        return $this->id;
+    }
 
+    public function get_label(): string
+    {
+        return $this->name;
+    }
+}

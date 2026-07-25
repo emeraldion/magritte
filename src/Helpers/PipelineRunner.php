@@ -14,9 +14,8 @@
 
 namespace Emeraldion\Magritte\Helpers;
 
-require_once __DIR__ . '/../../models/pipeline_item.php';
-
 use Emeraldion\EmeRails\Db;
+use Emeraldion\EmeRails\Models\Relationship;
 
 use Emeraldion\Magritte\Models\Pipeline;
 use Emeraldion\Magritte\Models\PipelineStage;
@@ -62,7 +61,7 @@ class PipelineRunner
     ): bool {
         $did_work = false;
 
-        $scheduler = new TaskRunner();
+        $task_runner = new TaskRunner();
         $conn = Db::get_connection();
 
         if (!($pipeline = Pipeline::find_by_short_name($pipeline_name))) {
@@ -83,7 +82,7 @@ class PipelineRunner
             $rel = $pipeline->has_and_belongs_to_many($this->itemclass, [
                 'as' => 'items',
                 'where_clause' => $pipeline_stage_name ? "`stage` = '{$conn->escape($pipeline_stage_name)}'" : '1',
-                'order_by' => '`last_run_at` ASC',
+                // 'order_by' => '`last_run_at` ASC',
                 'limit' => $limit,
                 'start' => $start
             ])
@@ -312,7 +311,7 @@ class PipelineRunner
         return $ret;
     }
 
-    protected function add_extra_options_to_request(string $task_name, ?string $task_args, array $user_args): void
+    protected function add_extra_options_to_request(string $task_name, ?string $stage_args, array $user_args): void
     {
         if ($task = TaskRegistry::get($task_name)) {
             $fields = [];
