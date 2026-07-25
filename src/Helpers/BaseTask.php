@@ -205,7 +205,7 @@ abstract class BaseTask implements Task
     {
         $items = array_filter(
             $this->get_option(self::PARAM_ID)
-                ? array_map(function ($identifier) {
+                ? array_map(function ($identifier) use ($classname) {
                     if ($item = $classname::find(trim($identifier))) {
                         return $item;
                     }
