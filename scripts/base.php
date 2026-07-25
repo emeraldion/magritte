@@ -14,7 +14,6 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/db.conf.php';
-require_once __DIR__ . '/../include/nouns.inc.php';
 
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;

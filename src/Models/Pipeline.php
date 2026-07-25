@@ -98,7 +98,7 @@ class Pipeline extends ActiveRecord
         $itemclass = first($itemclasses);
         $update = false;
         $update_only = false;
-        $item_fk_values = implode(
+        $item_pk_values = implode(
             ',',
             array_map(function ($item) use ($conn) {
                 return "'" . $conn->escape($item->{$item->get_primary_key_name()}) . "'";
@@ -106,7 +106,7 @@ class Pipeline extends ActiveRecord
         );
         if (
             $existing_rel = $this->has_and_belongs_to_many($itemclass, [
-                'where_clause' => "`{$item->get_table_name()}`.`{$item->get_foreign_key_name()}` IN ({$item_fk_values})"
+                'where_clause' => "`{$item->get_table_name()}`.`{$item->get_primary_key_name()}` IN ({$item_pk_values})"
             ])
         ) {
             $update = true;
