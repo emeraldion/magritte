@@ -174,7 +174,7 @@ class PipelineRunner
                             } elseif (!$expunge) {
                                 $synt_rel = $pipelines_to_items->among([$pipeline], [$item]);
                                 $r = $synt_rel[$pipeline->id][$id];
-                                // FIXME: this ISIN should not be in the same pipeline under a different stage;
+                                // FIXME: this item should not be in the same pipeline under a different stage;
                                 // if so, we should raise this as an error. In the meantime, just get along...
                                 $r->_ignore = true;
                             }

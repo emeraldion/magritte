@@ -108,9 +108,9 @@ abstract class TaskRegistry
                     $r = $task->run($context);
                 }
                 if (is_array($r)) {
-                    $ret = array_merge($ret, $r);
+                    $ret = $ret + $r;
                 } else {
-                    $ret = array_merge($ret, [$r]);
+                    $ret = $ret + [$r];
                 }
             }
         }
