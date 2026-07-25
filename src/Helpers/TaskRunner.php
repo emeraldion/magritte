@@ -59,7 +59,7 @@ class TaskRunner
             }
         }
 
-        $item_factory = new $itemclass();
+        $item_factory = new $this->itemclass();
         $items = $item_factory->find_all([
             // 'where_clause' => '`attivo` = 1',
             'limit' => LIMIT
