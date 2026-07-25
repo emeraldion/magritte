@@ -100,6 +100,17 @@ class PipelineRunner
                 continue;
             }
 
+            if (!$stage->task_name) {
+                if ($verbose) {
+                    printf(
+                        "  Pipeline stage has no task associated: %s:%s\n",
+                        $pipeline->short_name,
+                        $stage_short_name
+                    );
+                }
+                continue;
+            }
+
             $items = array_key_exists($stage_short_name, $items_by_stage) ? $items_by_stage[$stage_short_name] : [];
             if ($items || $stage->runs_empty) {
                 if ($verbose) {
