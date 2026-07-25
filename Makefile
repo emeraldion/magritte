@@ -19,18 +19,9 @@ install:
 	yarn install
 create-test-db:
 	mysql -u root -p < schemas/magritte.sql
+
 test: install
-	vendor/bin/phpunit --test-suffix=.test.php test/unit
-test-helpers: install
-	vendor/bin/phpunit --test-suffix=.test.php test/unit/helpers
-test-models: install
-	vendor/bin/phpunit --test-suffix=.test.php test/unit/models
-test-functional: install
-	vendor/bin/phpunit --test-suffix=.test.php test/functional
-test-e2e:
-	yarn test-e2e
-test-e2e-report:
-	yarn test-e2e-report
+	vendor/bin/phpunit --test-suffix=Test.php test
 
 # Formatting goals
 format:

@@ -37,6 +37,11 @@
       "Emeraldion\\Magritte\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Emeraldion\\Magritte\\Test\\": "test/"
+    }
+  },
   "archive": {
     "exclude": [
       "/docs",

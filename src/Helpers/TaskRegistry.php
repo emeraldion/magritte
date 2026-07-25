@@ -45,7 +45,7 @@ abstract class TaskRegistry
      *  @param task The task to register
      *  @see Task
      */
-    public static function register($task)
+    public static function register(Task $task): bool
     {
         if (array_key_exists($task->name, self::$registry)) {
             return false;
@@ -61,7 +61,7 @@ abstract class TaskRegistry
      *  @param task_name The name of the task
      *  @see Task
      */
-    public static function get($task_name)
+    public static function get(string $task_name): ?Task
     {
         if (!array_key_exists($task_name, self::$registry)) {
             return null;
@@ -76,7 +76,7 @@ abstract class TaskRegistry
      *  @param task_name The name of the task
      *  @see Task
      */
-    public static function has($task_name)
+    public static function has(string $task_name): bool
     {
         return array_key_exists($task_name, self::$registry);
     }
@@ -118,7 +118,7 @@ abstract class TaskRegistry
         return $ret;
     }
 
-    public static function flush_registry($context)
+    public static function flush_registry($context): void
     {
         uasort(self::$registry, function ($a, $b) {
             global $context;
@@ -132,7 +132,7 @@ abstract class TaskRegistry
         }
     }
 
-    public static function enumerate($context)
+    public static function enumerate($context): array
     {
         $task_names = array_keys(
             array_filter(self::$registry, function ($a) use ($context) {
@@ -143,7 +143,7 @@ abstract class TaskRegistry
         return $task_names;
     }
 
-    public static function _clear_registry()
+    public static function _clear_registry(): void
     {
         self::$registry = [];
     }
