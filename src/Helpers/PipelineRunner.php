@@ -61,7 +61,7 @@ class PipelineRunner
     ): bool {
         $did_work = false;
 
-        $task_runner = new TaskRunner();
+        $task_runner = TaskRunner::for($this->itemclass);
         $conn = Db::get_connection();
 
         if (!($pipeline = Pipeline::find_by_short_name($pipeline_name))) {

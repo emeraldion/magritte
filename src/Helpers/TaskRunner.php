@@ -32,6 +32,18 @@ class TaskRunnerContext
 
 class TaskRunner
 {
+    private $itemclass;
+
+    protected function __construct(string $classname)
+    {
+        $this->itemclass = $classname;
+    }
+
+    public static function for(string $classname): self
+    {
+        return new self($classname);
+    }
+
     public function run($level = null, $task_name = null)
     {
         if (!Config::get('TASK_RUNNER_ENABLED')) {
@@ -48,7 +60,7 @@ class TaskRunner
             }
         }
 
-        $item_factory = new \PipelineItem();
+        $item_factory = new $itemclass();
         $items = $item_factory->find_all([
             // 'where_clause' => '`attivo` = 1',
             'limit' => LIMIT
