@@ -26,8 +26,10 @@ trait ByShortName
     public static function find_by_short_name(string $short_name): ?self
     {
         $conn = Db::get_connection();
+        // This ensures we return the right subclass
+        $cls = get_called_class();
 
-        $factory = new self();
+        $factory = new $cls();
         $ret = $factory->find_one([
             'where_clause' => "`short_name` = '{$conn->escape($short_name)}'"
         ]);
