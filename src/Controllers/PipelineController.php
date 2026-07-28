@@ -14,13 +14,11 @@
 
 namespace Emeraldion\Magritte\Controllers;
 
-// Maybe should be offered as an out of the box base item model class?
-include_once __DIR__ . '/../models/pipeline_item.php';
-
 use Emeraldion\EmeRails\Helpers\Request;
 
 use Emeraldion\Magritte\Helpers\PipelineRunner;
 use Emeraldion\Magritte\Models\Pipeline;
+use Emeraldion\Magritte\Models\PipelineItem;
 use Emeraldion\Magritte\Models\PipelineStage;
 
 /**

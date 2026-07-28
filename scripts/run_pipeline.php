@@ -14,13 +14,13 @@
  */
 
 require_once __DIR__ . '/base.php';
-require_once __DIR__ . '/../models/pipeline_item.php';
 require_once __DIR__ . '/../tasks/labeller_task.php';
 
 use splitbrain\phpcli\Options;
 
 use Emeraldion\Magritte\Helpers\PipelineRunner;
 use Emeraldion\Magritte\Models\Pipeline;
+use Emeraldion\Magritte\Models\PipelineItem;
 use Emeraldion\Magritte\Models\PipelineStage;
 
 class RunPipeline extends ScriptCommand

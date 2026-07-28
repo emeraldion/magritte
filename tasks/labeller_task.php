@@ -12,10 +12,9 @@
  * @format
  */
 
-require_once __DIR__ . '/../models/pipeline_item.php';
-
 use Emeraldion\Magritte\Helpers\BaseTask;
 use Emeraldion\Magritte\Helpers\TaskRegistry;
+use Emeraldion\Magritte\Models\PipelineItem;
 
 class LabellerTask extends BaseTask
 {

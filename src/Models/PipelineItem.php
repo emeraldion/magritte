@@ -13,7 +13,6 @@
  */
 
 use Emeraldion\EmeRails\Models\ActiveRecord;
-use Emeraldion\Magritte\Models\Pipable;
 
 /**
  * @class PipelineItem

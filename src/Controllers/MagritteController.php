@@ -14,9 +14,6 @@
 
 namespace Emeraldion\Magritte\Controllers;
 
-require_once __DIR__ . '/../config/db.conf.php';
-require_once __DIR__ . '/../config/magritte.conf.php';
-
 use Emeraldion\EmeRails\Controllers\BaseController;
 use Emeraldion\EmeRails\Config;
 use Emeraldion\EmeRails\Db;
