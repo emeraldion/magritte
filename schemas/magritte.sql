@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jul 18, 2026 at 04:57 PM
+-- Generation Time: Jul 28, 2026 at 11:20 PM
 -- Server version: 5.7.39
--- PHP Version: 8.2.0
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,6 +37,36 @@ CREATE TABLE `pipelines` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pipeline_items`
+--
+
+DROP TABLE IF EXISTS `pipeline_items`;
+CREATE TABLE `pipeline_items` (
+  `id` int(11) NOT NULL,
+  `name` varchar(24) COLLATE latin1_general_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pipeline_items_pipelines`
+--
+
+DROP TABLE IF EXISTS `pipeline_items_pipelines`;
+CREATE TABLE `pipeline_items_pipelines` (
+  `id` int(11) NOT NULL,
+  `pipeline_item_id` int(11) NOT NULL,
+  `pipeline_id` int(11) NOT NULL,
+  `stage` varchar(48) COLLATE latin1_general_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pipeline_stages`
 --
 
@@ -52,6 +82,7 @@ CREATE TABLE `pipeline_stages` (
   `runs_empty` tinyint(1) NOT NULL DEFAULT '0',
   `next_stage_id` int(11) DEFAULT NULL,
   `promotion_enabled` tinyint(1) DEFAULT NULL,
+  `layout` text COLLATE latin1_general_ci,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -69,6 +100,26 @@ ALTER TABLE `pipelines`
   ADD UNIQUE KEY `name` (`name`),
   ADD KEY `created_at` (`created_at`),
   ADD KEY `updated_at` (`updated_at`);
+
+--
+-- Indexes for table `pipeline_items`
+--
+ALTER TABLE `pipeline_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `created_at` (`created_at`),
+  ADD KEY `updated_at` (`updated_at`);
+
+--
+-- Indexes for table `pipeline_items_pipelines`
+--
+ALTER TABLE `pipeline_items_pipelines`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `pipeline_id_pipeline_item_id` (`pipeline_item_id`,`pipeline_id`),
+  ADD KEY `pipeline_item_id` (`pipeline_item_id`),
+  ADD KEY `pipeline_id` (`pipeline_id`),
+  ADD KEY `created_at` (`created_at`),
+  ADD KEY `updated_at` (`updated_at`),
+  ADD KEY `stage` (`stage`);
 
 --
 -- Indexes for table `pipeline_stages`
@@ -93,6 +144,18 @@ ALTER TABLE `pipelines`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `pipeline_items`
+--
+ALTER TABLE `pipeline_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pipeline_items_pipelines`
+--
+ALTER TABLE `pipeline_items_pipelines`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `pipeline_stages`
 --
 ALTER TABLE `pipeline_stages`
@@ -101,6 +164,13 @@ ALTER TABLE `pipeline_stages`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `pipeline_items_pipelines`
+--
+ALTER TABLE `pipeline_items_pipelines`
+  ADD CONSTRAINT `pipeline_items_pipelines_ibfk_1` FOREIGN KEY (`pipeline_item_id`) REFERENCES `pipeline_items` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `pipeline_items_pipelines_ibfk_2` FOREIGN KEY (`pipeline_id`) REFERENCES `pipelines` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `pipeline_stages`
