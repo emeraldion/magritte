@@ -14,6 +14,7 @@
 
 namespace Emeraldion\Magritte\Controllers;
 
+use Emeraldion\EmeRails\Config;
 use Emeraldion\EmeRails\Helpers\Request;
 
 use Emeraldion\Magritte\Helpers\PipelineRunner;
