@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/emeraldion/emerails.git",
-                "reference": "f99cce66bfd7d66e85ce5f9ed476ac2bb23f925a"
+                "reference": "ea781f6cd63ba435eece8b6a8089255cde574680"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/emeraldion/emerails/zipball/f99cce66bfd7d66e85ce5f9ed476ac2bb23f925a",
-                "reference": "f99cce66bfd7d66e85ce5f9ed476ac2bb23f925a",
+                "url": "https://api.github.com/repos/emeraldion/emerails/zipball/ea781f6cd63ba435eece8b6a8089255cde574680",
+                "reference": "ea781f6cd63ba435eece8b6a8089255cde574680",
                 "shasum": ""
             },
             "require": {
@@ -69,7 +69,7 @@
                 "issues": "https://github.com/emeraldion/emerails/issues",
                 "source": "https://github.com/emeraldion/emerails"
             },
-            "time": "2026-07-25T10:53:28+00:00"
+            "time": "2026-07-27T20:27:45+00:00"
         },
         {
             "name": "splitbrain/php-cli",
