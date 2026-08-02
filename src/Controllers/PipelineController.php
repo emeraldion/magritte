@@ -41,6 +41,7 @@ class PipelineController extends MagritteController
         parent::init();
 
         $this->allow_method(Request::METHOD_POST, [
+            'edit',
             'edit_stage',
             'promote_stage',
             'purge_stage',
@@ -55,6 +56,7 @@ class PipelineController extends MagritteController
 
         $this->accept_parameter(
             [
+                'edit',
                 'edit_stage',
                 'items',
                 'promote_stage',
@@ -194,6 +196,29 @@ class PipelineController extends MagritteController
         }
 
         $this->set_title(sprintf(l('pipeline-stage-title-@1'), $this->stage->name));
+    }
+
+    /**
+     * @fn edit
+     * @short Edit this actions's short description
+     * @details Edit this actions's detailed description
+     */
+    public function edit()
+    {
+        if (!($pipeline = $this->pipeline = Pipeline::find($this->parameters->id))) {
+            $this->send_error(404);
+        }
+        if ($this->request->is_post()) {
+            $pipeline->update_with($_POST);
+            if ($pipeline->save()) {
+                $this->flash(l('pipeline-edit-save-success'), 'success');
+                $this->redirect_to([
+                    'action' => 'view',
+                    'id' => $pipeline->id
+                ]);
+            }
+        }
+        $this->set_title(sprintf(l('pipeline-edit-title-@1'), $pipeline->name));
     }
 
     /**
