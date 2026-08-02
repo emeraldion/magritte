@@ -202,6 +202,8 @@ class PipelineRunner
                         }
                     }
                 }
+            } elseif ($verbose) {
+                printf("  Stage '%s' has no items to work on\n", $stage_short_name);
             }
         }
 

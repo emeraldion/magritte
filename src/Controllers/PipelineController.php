@@ -41,6 +41,7 @@ class PipelineController extends MagritteController
         parent::init();
 
         $this->allow_method(Request::METHOD_POST, [
+            'edit_stage',
             'promote_stage',
             'purge_stage',
             'run',
@@ -54,6 +55,7 @@ class PipelineController extends MagritteController
 
         $this->accept_parameter(
             [
+                'edit_stage',
                 'items',
                 'promote_stage',
                 'purge_stage',
@@ -192,6 +194,30 @@ class PipelineController extends MagritteController
         }
 
         $this->set_title(sprintf(l('pipeline-stage-title-@1'), $this->stage->name));
+    }
+
+    /**
+     * @fn edit_stage
+     * @short Edit this actions's short description
+     * @details Edit this actions's detailed description
+     */
+    public function edit_stage()
+    {
+        if (!($stage = $this->stage = PipelineStage::find($this->parameters->id))) {
+            $this->send_error(404);
+        }
+        $stage->belongs_to(Pipeline::class);
+        if ($this->request->is_post()) {
+            $stage->update_with($_POST);
+            if ($stage->save()) {
+                $this->flash(l('pipeline-stage-edit-save-success', 'Pipeline stage updated'));
+                $this->redirect_to([
+                    'action' => 'view',
+                    'id' => $stage->pipeline->id
+                ]);
+            }
+        }
+        $this->set_title(l('pipeline-edit-stage-title-@1', $stage->get_localized_name()));
     }
 
     /**
