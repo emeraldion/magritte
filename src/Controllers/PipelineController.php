@@ -41,6 +41,7 @@ class PipelineController extends MagritteController
         parent::init();
 
         $this->allow_method(Request::METHOD_POST, [
+            'delete_from_stage',
             'edit',
             'edit_stage',
             'promote_stage',
@@ -51,11 +52,20 @@ class PipelineController extends MagritteController
             'stage_promotion_enable'
         ]);
         $this->allow_method(Request::METHOD_GET, [
-            'except' => ['promote_stage', 'purge_stage', 'run', 'save_layout', 'set_enabled', 'stage_promotion_enable']
+            'except' => [
+                'delete_from_stage',
+                'promote_stage',
+                'purge_stage',
+                'run',
+                'save_layout',
+                'set_enabled',
+                'stage_promotion_enable'
+            ]
         ]);
 
         $this->accept_parameter(
             [
+                'delete_from_stage',
                 'edit',
                 'edit_stage',
                 'items',
@@ -106,6 +116,10 @@ class PipelineController extends MagritteController
         $this->accept_parameter(['run'], 'start', [
             'type' => 'int',
             'default' => 0
+        ]);
+        $this->accept_parameter(['delete_from_stage'], 'identifier', [
+            'type' => 'string',
+            'required' => true
         ]);
     }
 
@@ -277,6 +291,51 @@ class PipelineController extends MagritteController
                 foreach ($rel[$stage->pipeline->id] as $isin => $r) {
                     $r->stage = $next_stage->short_name;
                     $success = $success && $r->save();
+                }
+            }
+            print json_encode([
+                'success' => $success
+            ]);
+        } catch (Throwable $t) {
+            print json_encode([
+                'error' => $t->getMessage()
+            ]);
+        }
+        $this->render(null);
+    }
+
+    /**
+     * @fn delete_from_stage
+     * @short Edit this actions's short description
+     * @details Edit this actions's detailed description
+     */
+    public function delete_from_stage()
+    {
+        $this->mimetype = 'application/json';
+        try {
+            $itemclass = get_called_class()::ITEM_CLASS;
+            if (!($stage = PipelineStage::find($this->parameters->id))) {
+                throw new \Exception(l('pipeline-delete-from-stage-no-such-stage-error'));
+            }
+            if (!$stage->belongs_to(Pipeline::class)) {
+                throw new \Exception(l('pipeline-delete-from-stage-pipeline-has-no-stages-error'));
+            }
+            if (!($item = $itemclass::find($this->parameters->identifier))) {
+                throw new \Exception(l('pipeline-delete-from-stage-no-such-item-error'));
+            }
+
+            $conn = $this->get_connection();
+            $success = false;
+            if (
+                $rel = $stage->pipeline->has_and_belongs_to_many($itemclass, [
+                    'where_clause' =>
+                        "`{$item->get_table_name()}`.`{$item->get_primary_key_name()}` = '{$conn->escape(
+                            $item->get_identifier()
+                        )}'" . " AND `stage` = '{$conn->escape($stage->short_name)}'"
+                ])
+            ) {
+                if ($rel[$stage->pipeline->id][$item->get_identifier()]->delete()) {
+                    $success = true;
                 }
             }
             print json_encode([
