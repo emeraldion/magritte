@@ -31,7 +31,8 @@ class PipelineRunner
 
     public static function for(string $classname): self
     {
-        return new self($classname);
+        $cls = get_called_class();
+        return new $cls($classname);
     }
 
     /**
