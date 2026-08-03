@@ -45,6 +45,6 @@ class PipelineItem extends ActiveRecord implements Pipable
 
     public function get_item_class(): string
     {
-        return $this->status;
+        return sprintf('pipeline-item-status-%s', strtolower($this->status));
     }
 }
