@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Aug 03, 2026 at 05:05 PM
+-- Generation Time: Aug 03, 2026 at 11:33 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.33
 
@@ -60,7 +60,7 @@ CREATE TABLE `pipeline_items_pipelines` (
   `pipeline_item_id` int(11) NOT NULL,
   `pipeline_id` int(11) NOT NULL,
   `stage` varchar(48) COLLATE latin1_general_ci DEFAULT NULL,
-  `status` enum('idle','running') COLLATE latin1_general_ci NOT NULL DEFAULT 'idle',
+  `status` enum('idle','running','failed') COLLATE latin1_general_ci NOT NULL DEFAULT 'idle',
   `last_run_at` datetime DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP

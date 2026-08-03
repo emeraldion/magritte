@@ -24,8 +24,9 @@ class PipelineRunner
 {
     const STATUS_IDLE = 'idle';
     const STATUS_RUNNING = 'running';
+    const STATUS_FAILED = 'failed';
 
-    const STATUSES = [self::STATUS_IDLE, self::STATUS_RUNNING];
+    const STATUSES = [self::STATUS_IDLE, self::STATUS_RUNNING, self::STATUS_FAILED];
 
     private $itemclass;
 
