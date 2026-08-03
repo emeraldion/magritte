@@ -21,4 +21,8 @@ interface Pipable
     public function get_label(): string;
 
     public function get_status(): string;
+
+    public function get_localized_status(): string;
+
+    public function get_item_class(): string;
 }
