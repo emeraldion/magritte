@@ -16,9 +16,9 @@ use Emeraldion\Magritte\Helpers\BaseTask;
 use Emeraldion\Magritte\Helpers\TaskRegistry;
 use Emeraldion\Magritte\Models\PipelineItem;
 
-class LabellerTask extends BaseTask
+class SlowTask extends BaseTask
 {
-    public $name = 'labeller';
+    public $name = 'slow';
 
     public function run($context)
     {
@@ -27,6 +27,7 @@ class LabellerTask extends BaseTask
             printf("Note: %s is operating in dry-run mode\n", get_called_class());
         }
         $limit = $this->get_option('limit', 10);
+        $sleep_interval = $this->get_option('sleep-interval') ?: 10;
 
         // $this->log("%s::run\n", get_called_class());
 
@@ -39,7 +40,8 @@ class LabellerTask extends BaseTask
             printf("%s found %d items\n", get_called_class(), count($items));
 
             foreach ($items as $item) {
-                printf("\t* %s\n", $item->get_label());
+                printf("* %s\n", $item->get_label());
+                sleep($sleep_interval);
                 $result[$item->get_identifier()] = true;
             }
         }
@@ -48,4 +50,4 @@ class LabellerTask extends BaseTask
     }
 }
 
-TaskRegistry::register(new LabellerTask());
+TaskRegistry::register(new SlowTask());

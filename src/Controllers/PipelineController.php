@@ -460,7 +460,11 @@ class PipelineController extends MagritteController
                     $identifiers_grouped_by_stage = [];
                     foreach ($items_grouped_by_stage as $stage => $items) {
                         $identifiers_grouped_by_stage[$stage] = array_map(function ($item) {
-                            return ['identifier' => $item->get_identifier(), 'label' => $item->get_label()];
+                            return [
+                                'identifier' => $item->get_identifier(),
+                                'label' => $item->get_label(),
+                                'status' => $item->get_status()
+                            ];
                         }, $items);
                     }
                     // Fill missing stages with empty arrays

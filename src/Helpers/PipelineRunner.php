@@ -22,6 +22,11 @@ use Emeraldion\Magritte\Models\PipelineStage;
 
 class PipelineRunner
 {
+    const STATUS_IDLE = 'idle';
+    const STATUS_RUNNING = 'running';
+
+    const STATUSES = [self::STATUS_IDLE, self::STATUS_RUNNING];
+
     private $itemclass;
 
     protected function __construct(string $classname)
@@ -76,116 +81,72 @@ class PipelineRunner
             printf("Running pipeline: %s\n", $pipeline->short_name);
         }
 
-        $pipeline->has_many(PipelineStage::class, ['as' => 'stages']);
-
-        $items_by_stage = [];
-        if (
-            $rel = $pipeline->has_and_belongs_to_many($this->itemclass, [
-                'as' => 'items',
-                'where_clause' => $pipeline_stage_name ? "`stage` = '{$conn->escape($pipeline_stage_name)}'" : '1',
-                // 'order_by' => '`last_run_at` ASC',
-                'limit' => $limit,
-                'start' => $start
-            ])
-        ) {
-            foreach ($pipeline->items as $item) {
-                $items_by_stage[$item->stage][] = $item;
-            }
-        }
-
-        Db::close_connection($conn);
-
-        foreach ($pipeline->stages as $stage) {
-            $stage_short_name = $stage->short_name;
-            if ($pipeline_stage_name && $pipeline_stage_name != $stage_short_name) {
-                continue;
-            }
-
-            if (!$stage->task) {
-                if ($verbose) {
-                    printf(
-                        "  Pipeline stage has no task associated: %s:%s\n",
-                        $pipeline->short_name,
-                        $stage_short_name
-                    );
+        if ($pipeline->has_many(PipelineStage::class, ['as' => 'stages'])) {
+            // Handy dictionary of items by stage short name
+            $items_by_stage = [];
+            if (
+                $rel = $pipeline->has_and_belongs_to_many($this->itemclass, [
+                    'as' => 'items',
+                    'where_clause' => $pipeline_stage_name ? "`stage` = '{$conn->escape($pipeline_stage_name)}'" : '1',
+                    // 'order_by' => '`last_run_at` ASC',
+                    'limit' => $limit,
+                    'start' => $start
+                ])
+            ) {
+                foreach ($pipeline->items as $item) {
+                    $items_by_stage[$item->stage][] = $item;
                 }
-                continue;
             }
 
-            $items = array_key_exists($stage_short_name, $items_by_stage) ? $items_by_stage[$stage_short_name] : [];
-            if ($items || $stage->runs_empty) {
-                if ($verbose) {
-                    printf("  Running pipeline stage: %s:%s\n", $pipeline->short_name, $stage_short_name);
+            Db::close_connection($conn);
+
+            foreach ($pipeline->stages as $stage) {
+                $stage_short_name = $stage->short_name;
+                if ($pipeline_stage_name && $pipeline_stage_name != $stage_short_name) {
+                    continue;
                 }
 
-                $id = array_map(function ($item) {
-                    return $item->id;
-                }, $items);
+                if (!$stage->task) {
+                    if ($verbose) {
+                        printf(
+                            "Pipeline stage has no task associated: %s:%s\n",
+                            $pipeline->short_name,
+                            $stage_short_name
+                        );
+                    }
+                    continue;
+                }
 
-                sort($id);
-
-                // Sets common request variables for task runner
-                $_REQUEST['id'] = implode(',', $id);
-                // FIXME: are these still needed?
-                $_REQUEST['verbose'] = $verbose;
-                $_REQUEST['dry-run'] = $dry_run;
-                $_REQUEST['__return'] = true;
-
-                $this->add_extra_options_to_request($stage->task, $stage->task_args, $user_args);
-
-                $pipelines_to_items = Relationship::many_to_many(Pipeline::class, $this->itemclass);
-
-                if ($result = $task_runner->run(null, $stage->task)) {
-                    $next_stage = null;
-                    if ($expunge) {
-                        printf("    Items will be expunged from the pipeline as requested\n");
-                    } elseif (
-                        $stage->next_stage_id &&
-                        // FIXME: we treat null as an implicit promotion enablement
-                        (is_null($stage->promotion_enabled) || $stage->promotion_enabled)
-                    ) {
-                        if (!($next_stage = PipelineStage::find($stage->next_stage_id))) {
-                            printf("    %s: Cannot find next stage (id: %d)\n", $id, $stage->next_stage_id);
-                        } elseif ($next_stage->pipeline_id != $pipeline->id) {
-                            printf(
-                                "    %s: Next stage (id: %d) belongs to an unexpected pipeline (id: %d)\n",
-                                $id,
-                                $next_stage->id,
-                                $next_stage->pipeline_id
-                            );
-                        } else {
-                            $next_stage_name = $next_stage->short_name;
-                        }
-                    } else {
-                        // Keep the item in the same stage
-                        $next_stage_name = $stage_short_name;
+                $items = array_key_exists($stage_short_name, $items_by_stage) ? $items_by_stage[$stage_short_name] : [];
+                if ($items || $stage->runs_empty) {
+                    if ($verbose) {
+                        printf("Running pipeline stage: %s:%s\n", $pipeline->short_name, $stage_short_name);
                     }
 
-                    $did_work = $did_work || count($result) > 0;
+                    $id = array_map(function ($item) {
+                        return $item->id;
+                    }, $items);
 
-                    // TODO: move this logic to a pipeline post-flight hook
-                    foreach (array_keys($result) as $id) {
-                        if (!($item = $this->itemclass::find($id))) {
-                            continue;
-                        }
+                    sort($id);
 
+                    foreach ($items as $item) {
                         $r = null;
 
-                        if ($rel && array_key_exists($id, $rel[$pipeline->id])) {
-                            $r = $rel[$pipeline->id][$id];
+                        if ($rel && array_key_exists($item->id, $rel[$pipeline->id])) {
+                            $r = $rel[$pipeline->id][$item->id];
                         } else {
                             if (
                                 $existing_rel = $pipeline->has_and_belongs_to_many($this->itemclass, [
                                     'as' => '_for_resolution',
                                     'where_clause' => "`{$pipelines_to_items->get_table_name()}`.`id` = '{$conn->escape(
-                                        $id
+                                        $item->id
                                     )}'"
                                 ])
                             ) {
-                                $r = $existing_rel[$pipeline->id][$id];
+                                $r = $existing_rel[$pipeline->id][$item->id];
                             } elseif (!$expunge) {
                                 $synt_rel = $pipelines_to_items->among([$pipeline], [$item]);
-                                $r = $synt_rel[$pipeline->id][$id];
+                                $r = $synt_rel[$pipeline->id][$item->id];
                                 // FIXME: this item should not be in the same pipeline under a different stage;
                                 // if so, we should raise this as an error. In the meantime, just get along...
                                 $r->_ignore = true;
@@ -193,19 +154,109 @@ class PipelineRunner
                         }
 
                         if ($r) {
-                            if ($expunge) {
-                                $r->delete();
+                            $r->status = self::STATUS_RUNNING;
+                            $r->save();
+                        }
+                    }
+
+                    // Sets common request variables for task runner
+                    $_REQUEST['id'] = implode(',', $id);
+                    // FIXME: are these still needed?
+                    $_REQUEST['verbose'] = $verbose;
+                    $_REQUEST['dry-run'] = $dry_run;
+                    $_REQUEST['__return'] = true;
+
+                    $this->add_extra_options_to_request($stage->task, $stage->task_args, $user_args);
+
+                    $pipelines_to_items = Relationship::many_to_many(Pipeline::class, $this->itemclass);
+
+                    if ($result = $task_runner->run(null, $stage->task)) {
+                        $next_stage = null;
+                        if ($expunge) {
+                            print "Items will be expunged from the pipeline as requested\n";
+                        } elseif (
+                            $stage->next_stage_id &&
+                            // FIXME: we treat null as an implicit promotion enablement
+                            (is_null($stage->promotion_enabled) || $stage->promotion_enabled)
+                        ) {
+                            if (!($next_stage = PipelineStage::find($stage->next_stage_id))) {
+                                printf("%s: Cannot find next stage (id: %d)\n", $id, $stage->next_stage_id);
+                            } elseif ($next_stage->pipeline_id != $pipeline->id) {
+                                printf(
+                                    "%s: Next stage (id: %d) belongs to an unexpected pipeline (id: %d)\n",
+                                    $id,
+                                    $next_stage->id,
+                                    $next_stage->pipeline_id
+                                );
                             } else {
-                                $r->stage = $next_stage_name;
-                                $r->last_run_at = date(TimeFormat::TIMESTAMP);
-                                $r->save();
+                                $next_stage_name = $next_stage->short_name;
+                                printf("Items will be promoted to stage '%s'\n", $next_stage_name);
+                            }
+                        } else {
+                            // Keep the item in the same stage
+                            $next_stage_name = $stage_short_name;
+                            printf("Items will remain in stage '%s'\n", $next_stage_name);
+                        }
+
+                        $did_work = $did_work || count($result) > 0;
+
+                        // TODO: move this logic to a pipeline post-flight hook
+                        foreach (array_keys($result) as $id) {
+                            printf("%s: processing item...\n", $id);
+                            if (!($item = $this->itemclass::find($id))) {
+                                continue;
+                            }
+
+                            $r = null;
+
+                            if ($rel && array_key_exists($id, $rel[$pipeline->id])) {
+                                $r = $rel[$pipeline->id][$id];
+                            } else {
+                                if (
+                                    $existing_rel = $pipeline->has_and_belongs_to_many($this->itemclass, [
+                                        'as' => '_for_resolution',
+                                        'where_clause' => "`{$pipelines_to_items->get_table_name()}`.`id` = '{$conn->escape(
+                                            $id
+                                        )}'"
+                                    ])
+                                ) {
+                                    $r = $existing_rel[$pipeline->id][$id];
+                                } elseif (!$expunge) {
+                                    $synt_rel = $pipelines_to_items->among([$pipeline], [$item]);
+                                    $r = $synt_rel[$pipeline->id][$id];
+                                    // FIXME: this item should not be in the same pipeline under a different stage;
+                                    // if so, we should raise this as an error. In the meantime, just get along...
+                                    $r->_ignore = true;
+                                }
+                            }
+
+                            if ($r) {
+                                if ($expunge) {
+                                    if ($r->delete()) {
+                                        printf("%s: item expunged from pipeline '%s'\n", $id, $pipeline_name);
+                                    }
+                                } else {
+                                    $r->stage = $next_stage_name;
+                                    $r->status = self::STATUS_IDLE;
+                                    $r->last_run_at = date(TimeFormat::TIMESTAMP);
+                                    if ($r->save()) {
+                                        printf(
+                                            "%s: item promoted to stage '%s' with status '%s'\n",
+                                            $id,
+                                            $r->stage,
+                                            $r->status
+                                        );
+                                    }
+                                }
                             }
                         }
                     }
+                } elseif ($verbose) {
+                    printf("Stage '%s' has no items to work on\n", $stage_short_name);
                 }
-            } elseif ($verbose) {
-                printf("  Stage '%s' has no items to work on\n", $stage_short_name);
             }
+        } else {
+            printf("The pipeline '%s' has no stages\n", $pipeline_name);
         }
 
         return $did_work;
@@ -279,7 +330,7 @@ class PipelineRunner
         if ($pipeline_stage->pipeline_id != $pipeline->id) {
             throw new \Exception(
                 sprintf(
-                    'Pipeline stage %s does not belong to pipeline: %s',
+                    "Pipeline stage '%s' does not belong to pipeline: %s",
                     $pipeline_stage->get_localized_name(),
                     $pipeline->get_localized_name()
                 )
@@ -308,10 +359,10 @@ class PipelineRunner
                 if ($verbose) {
                     switch ($status) {
                         case 'created':
-                            printf("Item %d was injected into stage %s\n", $item_id, $pipeline_stage_name);
+                            printf("Item '%d' was injected into stage '%s'\n", $item_id, $pipeline_stage_name);
                             break;
                         case 'updated':
-                            printf("Item %d was moved to stage %s\n", $item_id, $pipeline_stage_name);
+                            printf("Item '%d' was moved to stage '%s'\n", $item_id, $pipeline_stage_name);
                             break;
                     }
                 }

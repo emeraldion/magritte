@@ -12,6 +12,8 @@
  * @format
  */
 
+namespace Emeraldion\Magritte\Models;
+
 use Emeraldion\EmeRails\Models\ActiveRecord;
 
 /**
@@ -29,5 +31,10 @@ class PipelineItem extends ActiveRecord implements Pipable
     public function get_label(): string
     {
         return $this->name;
+    }
+
+    public function get_status(): string
+    {
+        return $this->status;
     }
 }

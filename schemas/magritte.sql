@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jul 28, 2026 at 11:20 PM
+-- Generation Time: Aug 03, 2026 at 05:05 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.33
 
@@ -60,6 +60,8 @@ CREATE TABLE `pipeline_items_pipelines` (
   `pipeline_item_id` int(11) NOT NULL,
   `pipeline_id` int(11) NOT NULL,
   `stage` varchar(48) COLLATE latin1_general_ci DEFAULT NULL,
+  `status` enum('idle','running') COLLATE latin1_general_ci NOT NULL DEFAULT 'idle',
+  `last_run_at` datetime DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -119,7 +121,9 @@ ALTER TABLE `pipeline_items_pipelines`
   ADD KEY `pipeline_id` (`pipeline_id`),
   ADD KEY `created_at` (`created_at`),
   ADD KEY `updated_at` (`updated_at`),
-  ADD KEY `stage` (`stage`);
+  ADD KEY `stage` (`stage`),
+  ADD KEY `status` (`status`),
+  ADD KEY `last_run_at` (`last_run_at`);
 
 --
 -- Indexes for table `pipeline_stages`

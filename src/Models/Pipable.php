@@ -17,4 +17,8 @@ namespace Emeraldion\Magritte\Models;
 interface Pipable
 {
     public function get_identifier(): string;
+
+    public function get_label(): string;
+
+    public function get_status(): string;
 }
