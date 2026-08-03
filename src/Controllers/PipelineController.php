@@ -242,7 +242,7 @@ class PipelineController extends MagritteController
                 ]);
             }
         }
-        $this->set_title(sprintf(l('pipeline-edit-stage-title-@1', $stage->get_localized_name())));
+        $this->set_title(sprintf(l('pipeline-edit-stage-title-@1'), $stage->get_localized_name()));
     }
 
     /**
