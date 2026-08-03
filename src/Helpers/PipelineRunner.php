@@ -129,6 +129,8 @@ class PipelineRunner
 
                     sort($id);
 
+                    $pipelines_to_items = Relationship::many_to_many(Pipeline::class, $this->itemclass);
+
                     foreach ($items as $item) {
                         $r = null;
 
@@ -167,8 +169,6 @@ class PipelineRunner
                     $_REQUEST['__return'] = true;
 
                     $this->add_extra_options_to_request($stage->task, $stage->task_args, $user_args);
-
-                    $pipelines_to_items = Relationship::many_to_many(Pipeline::class, $this->itemclass);
 
                     if ($result = $task_runner->run(null, $stage->task)) {
                         $next_stage = null;
