@@ -249,7 +249,7 @@ class PipelineController extends MagritteController
         if ($this->request->is_post()) {
             $stage->update_with($_POST);
             if ($stage->save()) {
-                $this->flash(l('pipeline-stage-edit-save-success', 'Pipeline stage updated'));
+                $this->flash(l('pipeline-stage-edit-save-success'), 'success');
                 $this->redirect_to([
                     'action' => 'view',
                     'id' => $stage->pipeline->id
