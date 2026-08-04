@@ -245,9 +245,11 @@ class PipelineController extends MagritteController
         if (!($stage = $this->stage = PipelineStage::find($this->parameters->id))) {
             $this->send_error(404);
         }
+        // TODO: error if orphaned
         $stage->belongs_to(Pipeline::class);
         if ($this->request->is_post()) {
             $stage->update_with($_POST);
+            $this->update_stage_fields($stage);
             if ($stage->save()) {
                 $this->flash(l('pipeline-stage-edit-save-success'), 'success');
                 $this->redirect_to([
@@ -256,8 +258,25 @@ class PipelineController extends MagritteController
                 ]);
             }
         }
+        if (
+            $stage->pipeline->has_many(PipelineStage::class, [
+                'as' => 'stages',
+                'order_by' => '`short_name` ASC'
+            ])
+        ) {
+            $this->other_stages = array_filter($stage->pipeline->stages, function ($other_stage) use ($stage) {
+                return $other_stage->id !== $stage->id;
+            });
+        }
         $this->set_title(sprintf(l('pipeline-edit-stage-title-@1'), $stage->get_localized_name()));
     }
+
+    /**
+     * @fn update_stage_fields($stage)
+     * @short Updates the stage's fields
+     * @details This hook method allows subclassers to perform custom operations on the stage's fields
+     */
+    protected function update_stage_fields(PipelineStage $stage) {}
 
     /**
      * @fn promote_stage
