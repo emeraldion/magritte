@@ -155,7 +155,7 @@ abstract class BaseTask implements Task
             $valid = false;
         }
         if (!$valid) {
-            throw new Exception(sprintf('Not a valid date: %s', $input));
+            throw new \Exception(sprintf('Not a valid date: %s', $input));
         }
         return $input;
     }

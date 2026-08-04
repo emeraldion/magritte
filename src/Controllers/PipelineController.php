@@ -172,7 +172,7 @@ class PipelineController extends MagritteController
         $this->mimetype = 'application/json';
         try {
             if (!($pipeline = Pipeline::find($this->parameters->id))) {
-                throw new Exception(l('pipeline-set-enabled-no-such-pipeline-error'));
+                throw new \Exception(l('pipeline-set-enabled-no-such-pipeline-error'));
             }
             $pipeline->enabled = $this->parameters->enabled ? 1 : 0;
             $pipeline->save();
@@ -269,16 +269,16 @@ class PipelineController extends MagritteController
         $this->mimetype = 'application/json';
         try {
             if (!($stage = PipelineStage::find($this->parameters->id))) {
-                throw new Exception(l('pipeline-promote-stage-no-such-stage-error'));
+                throw new \Exception(l('pipeline-promote-stage-no-such-stage-error'));
             }
             if (!$stage->belongs_to(Pipeline::class)) {
-                throw new Exception(l('pipeline-promote-stage-orphaned-stage-error'));
+                throw new \Exception(l('pipeline-promote-stage-orphaned-stage-error'));
             }
             if (!($next_stage = PipelineStage::find($stage->next_stage_id))) {
-                throw new Exception(l('pipeline-promote-stage-terminal-stage-error'));
+                throw new \Exception(l('pipeline-promote-stage-terminal-stage-error'));
             }
             if ($next_stage->pipeline_id != $stage->pipeline->id) {
-                throw new Exception(l('pipeline-promote-stage-pipeline-mismatch-error'));
+                throw new \Exception(l('pipeline-promote-stage-pipeline-mismatch-error'));
             }
             $conn = $this->get_connection();
             $success = false;
@@ -359,10 +359,10 @@ class PipelineController extends MagritteController
         $this->mimetype = 'application/json';
         try {
             if (!($stage = PipelineStage::find($this->parameters->id))) {
-                throw new Exception(l('pipeline-purge-stage-no-such-stage-error'));
+                throw new \Exception(l('pipeline-purge-stage-no-such-stage-error'));
             }
             if (!$stage->belongs_to(Pipeline::class)) {
-                throw new Exception(l('pipeline-purge-stage-orphaned-stage-error'));
+                throw new \Exception(l('pipeline-purge-stage-orphaned-stage-error'));
             }
             $conn = $this->get_connection();
             $success = false;
@@ -397,10 +397,10 @@ class PipelineController extends MagritteController
         $this->mimetype = 'application/json';
         try {
             if (!($stage = PipelineStage::find($this->parameters->id))) {
-                throw new Exception(l('pipeline-stage-promotion-enable-no-such-stage-error'));
+                throw new \Exception(l('pipeline-stage-promotion-enable-no-such-stage-error'));
             }
             if (!$stage->belongs_to(Pipeline::class)) {
-                throw new Exception(l('pipeline-stage-promotion-enable-orphaned-stage-error'));
+                throw new \Exception(l('pipeline-stage-promotion-enable-orphaned-stage-error'));
             }
             $stage->promotion_enabled = $this->parameters->enabled ? 1 : 0;
             $stage->save();
@@ -432,7 +432,7 @@ class PipelineController extends MagritteController
         $this->mimetype = 'application/json';
         try {
             if (!($this->pipeline = Pipeline::find($this->parameters->id))) {
-                throw new Exception(l('pipeline-run-no-such-pipeline-error'));
+                throw new \Exception(l('pipeline-run-no-such-pipeline-error'));
             }
             $conn = $this->get_connection();
             if (
@@ -441,7 +441,7 @@ class PipelineController extends MagritteController
                     'as' => 'stages'
                 ])
             ) {
-                throw new Exception(l('pipeline-run-pipeline-has-no-stages-error'));
+                throw new \Exception(l('pipeline-run-pipeline-has-no-stages-error'));
             }
             $runner = PipelineRunner::for(get_called_class()::ITEM_CLASS);
             $user_args = [];
@@ -494,7 +494,7 @@ class PipelineController extends MagritteController
         $this->mimetype = 'application/json';
         try {
             if (!($this->pipeline = Pipeline::find($this->parameters->id))) {
-                throw new Exception(l('pipeline-items-no-such-pipeline-error'));
+                throw new \Exception(l('pipeline-items-no-such-pipeline-error'));
             }
 
             $items = [];
@@ -585,7 +585,7 @@ class PipelineController extends MagritteController
         $this->mimetype = 'application/json';
         try {
             if (!($pipeline = Pipeline::find($this->parameters->id))) {
-                throw new Exception(l('pipeline-save-layout-no-such-pipeline-error'));
+                throw new \Exception(l('pipeline-save-layout-no-such-pipeline-error'));
             }
             if ($pipeline->has_many(PipelineStage::class, ['as' => 'stages'])) {
                 $layout = json_decode($_POST['layout'], true);

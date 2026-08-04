@@ -123,7 +123,7 @@ abstract class ScriptCommand extends CLI
         if (!is_array($argv)) {
             if (!@is_array($_SERVER['argv'])) {
                 if (!@is_array($GLOBALS['HTTP_SERVER_VARS']['argv'])) {
-                    throw new Exception('Could not read cmd args (register_argc_argv=Off?)', Exception::E_ARG_READ);
+                    throw new \Exception('Could not read cmd args (register_argc_argv=Off?)', Exception::E_ARG_READ);
                 }
                 return $GLOBALS['HTTP_SERVER_VARS']['argv'];
             }
@@ -157,7 +157,7 @@ abstract class ScriptCommand extends CLI
             $valid = false;
         }
         if (!$valid) {
-            throw new Exception(sprintf('Not a valid date: %s', $input));
+            throw new \Exception(sprintf('Not a valid date: %s', $input));
         }
         return $input;
     }
