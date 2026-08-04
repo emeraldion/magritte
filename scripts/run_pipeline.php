@@ -166,10 +166,10 @@ class RunPipeline extends ScriptCommand
             if (!$runner->run($short_name, $stage_name, $verbose, $dry_run, $limit, $start, $expunge)) {
                 ANSIColorWriter::printf("\n%s\n", 'bright-black', AnsiColorWriter::bold('Nothing to do'));
             }
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             printf("[%s] %s\n", ANSIColorWriter::colorize('Error', 'red'), $t->getMessage());
             exit(1);
-        } catch (Error $e) {
+        } catch (\Error $e) {
             printf("[%s] %s\n", ANSIColorWriter::colorize('Error', 'red'), $e->getMessage());
             exit(1);
         }
@@ -185,10 +185,10 @@ class RunPipeline extends ScriptCommand
         $runner = PipelineRunner::for(PipelineItem::class);
         try {
             $runner->inspect($short_name, $stage_name, $verbose, $show_empty);
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             printf("[%s] %s\n", ANSIColorWriter::colorize('Error', 'red'), $t->getMessage());
             exit(1);
-        } catch (Error $e) {
+        } catch (\Error $e) {
             printf("[%s] %s\n", ANSIColorWriter::colorize('Error', 'red'), $e->getMessage());
             exit(1);
         }
@@ -204,10 +204,10 @@ class RunPipeline extends ScriptCommand
         $runner = PipelineRunner::for(PipelineItem::class);
         try {
             $runner->inject($short_name, $stage_name, explode(',', $identifiers), $verbose);
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             printf("[%s] %s\n", ANSIColorWriter::colorize('Error', 'red'), $t->getMessage());
             exit(1);
-        } catch (Error $e) {
+        } catch (\Error $e) {
             printf("[%s] %s\n", ANSIColorWriter::colorize('Error', 'red'), $e->getMessage());
             exit(1);
         }

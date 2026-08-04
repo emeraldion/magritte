@@ -150,7 +150,7 @@ class PipelineController extends MagritteController
             if ($pipeline->has_many(PipelineStage::class, ['as' => 'stages'])) {
                 $this->stages = array_values($this->pipeline->stages);
             }
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             $this->flash(sprintf(l('pipeline-view-error-@1'), $t->getMessage()), 'error');
         }
         $this->pipeline->has_and_belongs_to_many(get_called_class()::ITEM_CLASS, [
@@ -180,12 +180,12 @@ class PipelineController extends MagritteController
                 'success' => true,
                 'enabled' => $pipeline->enabled ? true : false
             ]);
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             print json_encode([
                 'success' => false,
                 'error' => $t->getMessage()
             ]);
-        } catch (Error $e) {
+        } catch (\Error $e) {
             print json_encode([
                 'success' => false,
                 'error' => $e->getMessage()
@@ -296,7 +296,7 @@ class PipelineController extends MagritteController
             print json_encode([
                 'success' => $success
             ]);
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             print json_encode([
                 'error' => $t->getMessage()
             ]);
@@ -341,7 +341,7 @@ class PipelineController extends MagritteController
             print json_encode([
                 'success' => $success
             ]);
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             print json_encode([
                 'error' => $t->getMessage()
             ]);
@@ -379,7 +379,7 @@ class PipelineController extends MagritteController
             print json_encode([
                 'success' => $success
             ]);
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             print json_encode([
                 'error' => $t->getMessage()
             ]);
@@ -408,12 +408,12 @@ class PipelineController extends MagritteController
                 'success' => true,
                 'enabled' => $stage->promotion_enabled ? true : false
             ]);
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             print json_encode([
                 'success' => false,
                 'error' => $t->getMessage()
             ]);
-        } catch (Error $e) {
+        } catch (\Error $e) {
             print json_encode([
                 'success' => false,
                 'error' => $e->getMessage()
@@ -470,12 +470,12 @@ class PipelineController extends MagritteController
                 'success' => true,
                 'log' => $log
             ]);
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             print json_encode([
                 'success' => false,
                 'error' => $t->getMessage()
             ]);
-        } catch (Error $e) {
+        } catch (\Error $e) {
             print json_encode([
                 'success' => false,
                 'error' => $e->getMessage()
@@ -545,7 +545,7 @@ class PipelineController extends MagritteController
                 ],
                 'items' => $items
             ]);
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             print json_encode([
                 'success' => false,
                 'error' => $t->getMessage()
@@ -598,12 +598,12 @@ class PipelineController extends MagritteController
                 'success' => true,
                 'layout' => $layout
             ]);
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             print json_encode([
                 'success' => false,
                 'error' => $t->getMessage()
             ]);
-        } catch (Error $e) {
+        } catch (\Error $e) {
             print json_encode([
                 'success' => false,
                 'error' => $e->getMessage()
