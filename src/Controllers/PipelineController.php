@@ -154,7 +154,8 @@ class PipelineController extends MagritteController
             $this->flash(sprintf(l('pipeline-view-error-@1'), $t->getMessage()), 'error');
         }
         $this->pipeline->has_and_belongs_to_many(get_called_class()::ITEM_CLASS, [
-            'as' => 'items' // 'order_by' => '`last_run_at` ASC'
+            'as' => 'items',
+            'order_by' => '`last_run_at` ASC'
         ]);
 
         $this->status = sprintf(Config::get('CLI_BANNER'), l('pipeline-view-welcome-message'));
@@ -528,8 +529,8 @@ class PipelineController extends MagritteController
                 if (
                     $this->pipeline->has_and_belongs_to_many(get_called_class()::ITEM_CLASS, [
                         'as' => 'items',
-                        'where_clause' => "`stage` IN ({$values})"
-                        // 'order_by' => '`last_run_at` ASC'
+                        'where_clause' => "`stage` IN ({$values})",
+                        'order_by' => '`last_run_at` ASC'
                     ])
                 ) {
                     $items_grouped_by_stage = group_by(function ($item) {

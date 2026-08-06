@@ -89,7 +89,7 @@ class PipelineRunner
                 $rel = $pipeline->has_and_belongs_to_many($this->itemclass, [
                     'as' => 'items',
                     'where_clause' => $pipeline_stage_name ? "`stage` = '{$conn->escape($pipeline_stage_name)}'" : '1',
-                    // 'order_by' => '`last_run_at` ASC',
+                    'order_by' => '`last_run_at` ASC',
                     'limit' => $limit,
                     'start' => $start
                 ])
@@ -170,6 +170,11 @@ class PipelineRunner
                     $_REQUEST['__return'] = true;
 
                     $this->add_extra_options_to_request($stage->task, $stage->task_args, $user_args);
+
+                    if ($pipeline->quiet_period_ms > 0) {
+                        printf("Waiting %d milliseconds before execution...\n", $pipeline->quiet_period_ms);
+                        usleep($pipeline->quiet_period_ms * 1e3);
+                    }
 
                     if ($result = $task_runner->run(null, $stage->task)) {
                         $next_stage = null;
@@ -255,6 +260,11 @@ class PipelineRunner
                 } elseif ($verbose) {
                     printf("Stage '%s' has no items to work on\n", $stage_short_name);
                 }
+            }
+
+            if ($pipeline->grace_period_ms > 0) {
+                printf("Waiting %d milliseconds after termination...\n", $pipeline->grace_period_ms);
+                usleep($pipeline->grace_period_ms * 1e3);
             }
         } else {
             printf("The pipeline '%s' has no stages\n", $pipeline_name);
