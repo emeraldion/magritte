@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/emeraldion/emerails.git",
-                "reference": "2fdf6c1f5960ad567c7a13031dbe74933f43075a"
+                "reference": "c9830e1e1c49d22cd03060b50209cd2671e3c837"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/emeraldion/emerails/zipball/2fdf6c1f5960ad567c7a13031dbe74933f43075a",
-                "reference": "2fdf6c1f5960ad567c7a13031dbe74933f43075a",
+                "url": "https://api.github.com/repos/emeraldion/emerails/zipball/c9830e1e1c49d22cd03060b50209cd2671e3c837",
+                "reference": "c9830e1e1c49d22cd03060b50209cd2671e3c837",
                 "shasum": ""
             },
             "require": {
@@ -29,7 +29,7 @@
                 "tubalmartin/cssmin": "^4.1.1"
             },
             "require-dev": {
-                "guzzlehttp/guzzle": "~7.15.1",
+                "guzzlehttp/guzzle": "~7.15.2",
                 "guzzlehttp/psr7": "~2.13",
                 "phpunit/phpunit": "9.6.33"
             },
@@ -40,8 +40,12 @@
             ],
             "type": "project",
             "autoload": {
+                "files": [
+                    "include/common.inc.php",
+                    "include/tag_support.inc.php"
+                ],
                 "psr-4": {
-                    "Emeraldion\\EmeRails\\": "public/"
+                    "Emeraldion\\EmeRails\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -69,7 +73,7 @@
                 "issues": "https://github.com/emeraldion/emerails/issues",
                 "source": "https://github.com/emeraldion/emerails"
             },
-            "time": "2026-07-31T22:40:42+00:00"
+            "time": "2026-10-20T14:56:18+00:00"
         },
         {
             "name": "splitbrain/php-cli",
@@ -220,12 +224,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
-                "reference": "2d446c214bdbe5b71bde5011b060a05fece3ae6b"
+                "reference": "ebd57ccc7edb93d632e184efbe7693d2517bab3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/2d446c214bdbe5b71bde5011b060a05fece3ae6b",
-                "reference": "2d446c214bdbe5b71bde5011b060a05fece3ae6b",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/ebd57ccc7edb93d632e184efbe7693d2517bab3b",
+                "reference": "ebd57ccc7edb93d632e184efbe7693d2517bab3b",
                 "shasum": ""
             },
             "require": {
@@ -298,7 +302,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-25T13:48:31+00:00"
+            "time": "2026-09-23T22:02:09+00:00"
         },
         {
             "name": "tedivm/jshrink",
@@ -491,16 +495,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.x-dev",
+            "version": "1.13.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "5ee4e978b7fec6dbd844282126a5a32daa2044c6"
+                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/5ee4e978b7fec6dbd844282126a5a32daa2044c6",
-                "reference": "5ee4e978b7fec6dbd844282126a5a32daa2044c6",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/07d290f0c47959fd5eed98c95ee5602db07e0b6a",
+                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a",
                 "shasum": ""
             },
             "require": {
@@ -516,7 +520,6 @@
                 "phpspec/prophecy": "^1.10",
                 "phpunit/phpunit": "^7.5.20 || ^8.5.23 || ^9.5.13"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -540,7 +543,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.x"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.4"
             },
             "funding": [
                 {
@@ -548,7 +551,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-30T16:10:21+00:00"
+            "time": "2025-08-01T08:46:24+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -1045,12 +1048,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6d4bde7abc4020d95e9d0c95b0e3e5fd22c61e59"
+                "reference": "508d415ca4fefbbd79ad385156dc491256f4fe25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6d4bde7abc4020d95e9d0c95b0e3e5fd22c61e59",
-                "reference": "6d4bde7abc4020d95e9d0c95b0e3e5fd22c61e59",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/508d415ca4fefbbd79ad385156dc491256f4fe25",
+                "reference": "508d415ca4fefbbd79ad385156dc491256f4fe25",
                 "shasum": ""
             },
             "require": {
@@ -1075,7 +1078,7 @@
                 "sebastian/comparator": "^4.0.10",
                 "sebastian/diff": "^4.0.6",
                 "sebastian/environment": "^5.1.5",
-                "sebastian/exporter": "^4.0.8",
+                "sebastian/exporter": "^4.0.9",
                 "sebastian/global-state": "^5.0.8",
                 "sebastian/object-enumerator": "^4.0.4",
                 "sebastian/resource-operations": "^3.0.4",
@@ -1132,7 +1135,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-08-04T03:06:56+00:00"
+            "time": "2026-10-20T13:56:38+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -1575,16 +1578,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "4.0.8",
+            "version": "4.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "14c6ba52f95a36c3d27c835d65efc7123c446e8c"
+                "reference": "4352c1a3df741a7ba9e61af6fed51d1fee41cbf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/14c6ba52f95a36c3d27c835d65efc7123c446e8c",
-                "reference": "14c6ba52f95a36c3d27c835d65efc7123c446e8c",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/4352c1a3df741a7ba9e61af6fed51d1fee41cbf7",
+                "reference": "4352c1a3df741a7ba9e61af6fed51d1fee41cbf7",
                 "shasum": ""
             },
             "require": {
@@ -1640,7 +1643,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.8"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.9"
             },
             "funding": [
                 {
@@ -1660,7 +1663,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-24T06:03:27+00:00"
+            "time": "2026-08-11T04:55:59+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -1909,16 +1912,16 @@
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "4.0.6",
+            "version": "4.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "539c6691e0623af6dc6f9c20384c120f963465a0"
+                "reference": "c85be6922b7fd365942b986b9a50397d65407611"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/539c6691e0623af6dc6f9c20384c120f963465a0",
-                "reference": "539c6691e0623af6dc6f9c20384c120f963465a0",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/c85be6922b7fd365942b986b9a50397d65407611",
+                "reference": "c85be6922b7fd365942b986b9a50397d65407611",
                 "shasum": ""
             },
             "require": {
@@ -1960,7 +1963,7 @@
             "homepage": "https://github.com/sebastianbergmann/recursion-context",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
-                "source": "https://github.com/sebastianbergmann/recursion-context/tree/4.0.6"
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/4.0.7"
             },
             "funding": [
                 {
@@ -1980,7 +1983,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T06:57:39+00:00"
+            "time": "2026-08-11T05:25:24+00:00"
         },
         {
             "name": "sebastian/resource-operations",
