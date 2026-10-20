@@ -12,8 +12,6 @@
  * @format
  */
 
-require_once __DIR__ . '/../vendor/emeraldion/emerails/include/common.inc.php';
-
 use Emeraldion\EmeRails\Config;
 
 switch (getenv('php_env')) {

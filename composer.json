@@ -35,7 +35,11 @@
   "autoload": {
     "psr-4": {
       "Emeraldion\\Magritte\\": "src/"
-    }
+    },
+    "files": [
+      "config/db.conf.php",
+      "config/task_runner.conf.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
